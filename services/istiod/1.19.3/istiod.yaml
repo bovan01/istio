@@ -1,0 +1,24 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: istiod
+  namespace: ${releaseNamespace}
+spec:
+  chart:
+    spec:
+      chart: istiod
+      version: 1.19.3
+      sourceRef:
+        kind: HelmRepository
+        name: Istio
+        namespace: ${releaseNamespace}
+  interval: 15s
+  install:
+    remediation:
+      retries: 30
+    createNamespace: false
+  upgrade:
+    remediation:
+      retries: 30
+  targetNamespace: ${releaseNamespace}
